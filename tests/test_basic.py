@@ -37,44 +37,41 @@ def test_multiple_matches_nested():
 
 
 # array in message, scalar in match: checks membership
-@pytest.mark.xfail(strict=True)
 def test_array_contains():
     assert mmatch({'a': [1, 2, 3]}, {'a': 2})
 
 
-@pytest.mark.xfail(strict=True)
 def test_array_does_not_contain():
-    assert mmatch({'a': [1, 2, 3]}, {'a': 5})
+    assert not mmatch({'a': [1, 2, 3]}, {'a': 5})
 
 
 # array on both sides: full recursion
-@pytest.mark.xfail(strict=True)
 def test_array_full_match():
     assert mmatch({'a': [1, 2, 3]}, {'a': [1, 2, 3]})
 
 
 @pytest.mark.xfail(strict=True)
+def test_definitely_fails():
+    assert 1 == 2
+
+
 def test_nested_array_full_match():
     assert mmatch({'a': [{'a': 'b'}, 2, 3]}, {'a': [{'a': 'b'}, 2, 3]})
 
 
 # regex
-@pytest.mark.xfail(strict=True)
 def test_simplest_regex():
     assert mmatch({'a': 'forefoot'}, {'a': ' special/foo/'})
 
 
-@pytest.mark.xfail
 def test_simplest_regex_failure():
     assert not mmatch({'a': 'forefoot'}, {'a': ' special/smurf/'})
 
 
-@pytest.mark.xfail
 def test_regex_failure_for_case_sensitivity():
     assert not mmatch({'a': 'forefoot'}, {'a': ' special/FOO/'})
 
 
-@pytest.mark.xfail(strict=True)
 def test_regex_pass_for_case_sensitivity():
     assert mmatch({'a': 'forefoot'}, {'a': ' special/FOO/i'})
 
